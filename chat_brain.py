@@ -5,6 +5,7 @@ import requests
 
 
 counter = 0
+animations = ['afraid', 'bored', 'confused', 'crying', 'dancing', 'dog', 'excited', 'giggling', 'heartbroken', 'inlove', 'laughing', 'money', 'no', 'ok', 'takeoff', 'waiting']
 
 def func(user_message):
     global counter
@@ -31,16 +32,17 @@ def func(user_message):
     if to_send is not False:
         return to_send
 
-    if counter is 0:
+    if counter == 0:
         counter += 1
         return ('excited', f'Hi {user_message}')
 
-    return('dog', 'ask me something else')
+    random_animation = random.randrange(0, len(animations) - 1)
+    return(animations[random_animation], 'ask me something else')
 
 
 
 def rude_words(user_message):
-    if user_message[-1] is '?':
+    if user_message[-1] == '?':
         user_message = user_message[:-1]
     user_message = user_message.split()
     with open('rude_words.txt') as swear_words:
@@ -58,7 +60,6 @@ def user_name(user_message):
     if 'my' in user_message and 'is' in user_message and 'name' in user_message:
         user_message = user_message.split()
         name_index = user_message.index('is') + 1
-        print(f'Hi {user_message[name_index]}')
         return ('ok', f'Hi {user_message[name_index]}')
     else:
         return False
@@ -86,7 +87,7 @@ def joke(user_message):
 def weather_update(user_message):
     if 'weather' in user_message:
         key = '85560421f770605c1d50a905ec19876c'
-        city = 'London'
+        city = 'Tel Aviv'
         request = requests.get(f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}')
         data = request.json()
 
